@@ -2,7 +2,6 @@ package botomat
 
 import (
     "fmt"
-    "math/rand"
     "sync"
     "time"
 )
@@ -16,8 +15,8 @@ const (
     BIPEDAL            // two tasks at a time
     RADIAL             // three task at a time
     QUADRUPEDAL        // four tasks at a time
-    ARACHNID           // all tasks at the same time
-    AERONAUTICAL       // process a random number of tasks at the same time
+    ARACHNID           // ten tasks at the same time
+    AERONAUTICAL       // twenty tasks at the same time
 )
 
 // The robot type should be private. Only a factory struct should return an instance of robot.
@@ -26,26 +25,17 @@ type robot struct {
     Model model
     Name  string
 
-    tasks map[string]Task // Passed down from BotoMat and shared across multiple robots.
-    mx    sync.Mutex      // For thread-safe deletion of a task.
+    tasks *sync.Map // Passed down from BotoMat and shared across multiple robots.
     wg    sync.WaitGroup
 }
 
 // Simulates work by sleeping. Also deletes a task, once it is complete.
-func (robot *robot) completeTask(key string) {
-    description := robot.tasks[key].description
-    eta := robot.tasks[key].eta
-    fmt.Printf("Working on task %q...\n", description)
+func (robot *robot) completeTask(key Task) {
+    description := key.description
+    eta := key.eta
+    fmt.Printf("%s working on task %q...\n", robot.Name, description)
     time.Sleep(eta * time.Millisecond)
-    robot.deleteTask(key)
     fmt.Printf("Task %q - done.\n", description)
-}
-
-// Delete a task from the shared map of tasks, while preventing concurrent access to map write.
-func (robot *robot) deleteTask(key string) {
-    robot.mx.Lock()
-    defer robot.mx.Unlock()
-    delete(robot.tasks, key)
 }
 
 // Perform work based on the robot model.
@@ -60,11 +50,9 @@ func (robot *robot) Work() {
     case QUADRUPEDAL:
         robot.workWithLimit(4)
     case ARACHNID:
-        robot.workWithLimit(len(robot.tasks))
+        robot.workWithLimit(10)
     case AERONAUTICAL:
-        rand.Seed(time.Now().UTC().UnixNano())
-        r := rand.Intn(len(robot.tasks))
-        robot.workWithLimit(r)
+        robot.workWithLimit(20)
     default:
         fmt.Println("Model does not exist.")
     }
@@ -74,13 +62,21 @@ func (robot *robot) Work() {
 // Limits the maximum number of goroutines a robot can create at a time.
 func (robot *robot) workWithLimit(maxGoroutines int) {
     limit := make(chan struct{}, maxGoroutines)
-    for k, _ := range robot.tasks {
-        limit <- struct{}{}
-        robot.wg.Add(1)
-        go func(key string) {
-            robot.completeTask(key)
-            robot.wg.Done()
-            <-limit
-        }(k)
-    }
+    robot.tasks.Range(func(key, value interface{}) bool {
+        if value == false {
+            robot.tasks.Store(key, true)
+
+            limit <- struct{}{}
+            robot.wg.Add(1)
+
+            go func(t Task) {
+                robot.completeTask(t)
+                robot.tasks.Delete(key)
+
+                robot.wg.Done()
+                <-limit
+            }(key.(Task))
+        }
+        return true
+    })
 }
