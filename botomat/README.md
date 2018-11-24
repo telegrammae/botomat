@@ -1,9 +1,28 @@
+# Running the program
+Download the Go module 'botomat'. Assuming it's on the branch named 'challenge', the link will be:
+https://github.com/RedVentures22/bot-o-mat-telegrammae/tree/challenge/botomat.
+Otherwise, run
+
+```
+go get github.com/RedVentures22/bot-o-mat-telegrammae/botomat
+```
+
+```go
+package main
+
+import "botomat"
+
+func main() {
+    botomat.Run()
+}
+```
+
 # BOT-O-MAT
 Use any language to complete this challenge. The implementation is up to you: it can be a command-line application or have a graphical interface.
 
-Your application should collect a name and robot type from the types we list below. For each, it should create a Robot of the type the user chooses, e.g. Larry, Bipedal. 
+Your application should collect a name and robot type from the types we list below. For each, it should create a Robot of the type the user chooses, e.g. Larry, Bipedal.
 
-Given the list of tasks below, your application should then assign the Robot a set of five tasks, all of which complete after a duration that we show in milliseconds. 
+Given the list of tasks below, your application should then assign the Robot a set of five tasks, all of which complete after a duration that we show in milliseconds.
 
 
 
@@ -56,7 +75,7 @@ Tasks have a description and an estimated time to complete.
 
 ## Types
 ```
-{ 
+{
   UNIPEDAL: 'Unipedal',
   BIPEDAL: 'Bipedal',
   QUADRUPEDAL: 'Quadrupedal',
