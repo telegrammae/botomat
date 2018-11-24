@@ -8,6 +8,8 @@ import (
 
 // Factory struct that returns instances of robots and keeps a list of tasks.
 type BotoMat struct {
+    // A map with Tasks as keys and bools as values. The value indicates if a task has been taken.
+    // This is necessary to prevent robots from working on the same tasks.
     Tasks *sync.Map
 }
 
@@ -15,6 +17,7 @@ func (b *BotoMat) NewRobot(model model, name string) *robot {
     return &robot{Model: model, Name: name, wg: sync.WaitGroup{}, tasks: b.Tasks}
 }
 
+// Generates a number of tasks with random descriptions and ETA's. Allows for easier testing.
 func GenerateRandomTasks(size int) *sync.Map {
     rand.Seed(time.Now().UTC().UnixNano())
     result := sync.Map{}
@@ -30,6 +33,8 @@ func GenerateRandomTasks(size int) *sync.Map {
     for i := 0; i < size; i++ {
         verb := verbs[rand.Intn(len(verbs)-1)]
         noun := nouns[rand.Intn(len(nouns)-1)]
+
+        // Could also use a different strategy for too many string concatentions.
         description := verb + " the " + noun
         eta := (rand.Intn(5) * 1000) + 1
         result.Store(Task{description, time.Duration(eta)}, false)

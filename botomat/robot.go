@@ -63,6 +63,7 @@ func (robot *robot) Work() {
 func (robot *robot) workWithLimit(maxGoroutines int) {
     limit := make(chan struct{}, maxGoroutines)
     robot.tasks.Range(func(key, value interface{}) bool {
+        // Preventing multiple robots from processing the same task.
         if value == false {
             robot.tasks.Store(key, true)
 
