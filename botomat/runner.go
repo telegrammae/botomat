@@ -7,6 +7,7 @@ import (
 )
 
 var robotCount = flag.Int("robots", 1, "how many robots to run at the same time")
+var taskCount = flag.Int("tasks", 50, "how many random tasks to generate")
 
 // Exported function to run the program.
 func Run() {
@@ -15,7 +16,7 @@ func Run() {
     var modelNumber int
     var robots = []*robot{}
 
-    m := GenerateRandomTasks(50)
+    m := GenerateRandomTasks(*taskCount)
     factory := BotoMat{m}
 
     for i := 0; i < *robotCount; i++ {

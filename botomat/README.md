@@ -19,10 +19,12 @@ func main() {
 }
 ```
 
-The program accepts one command-line argument.
+The program accepts two command-line arguments.
 ```
 -robots int
       how many robots to run at the same time (default 1)
+-tasks int
+      how many random tasks to generate (default 50)
 ```
 So the program above can be run like so:
 ```

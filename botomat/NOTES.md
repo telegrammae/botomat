@@ -30,6 +30,6 @@ It could, however, be easily changed, should the design expand, but only at this
 Botomat returns an instance of Robot and allows to run it on a collection of tasks.
 A Robot can modify the collection of tasks of its Botomat. A Robot can be created and run only in the context of its Botomat.
 
-I made a function to create a larger collection of tasks for easier testing of the program. The tasks themselves are equivalent to those listed in the README.
+I made a function to create a larger collection of tasks for easier testing of the program. The tasks themselves are equivalent to those listed in the README. The default number of tasks is 50.
 
 One requirement, from which I deviated slightly, was to assign a robot five tasks. I made it so that each robot works on as many tasks at a time as its type (model) specifies. I felt that the challenge was open-ended enough to allow for this deviation.
