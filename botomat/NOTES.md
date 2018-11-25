@@ -1,6 +1,6 @@
 # About the challenge
 This challenge was a nice opportunity to use the new Go modules introduced in Go 1.11.
-The resulting solution has a module called 'botomat'.
+The resulting solution has a module called 'botomat', a command-line program.
 
 ## Features
 On top of the core functionality, botomat also has two additional features: the ability to run multiple Robots at the same time and the significance of a Robot's type.
@@ -27,7 +27,9 @@ As for the object-oriented design of this program, I am not completely happy wit
 Overall, it makes sense to keep the Robot implementation package-private and only expose a few methods of the factory, the Botomat itself.
 The small issue seems to be that Robots receive a pointer to the map from the factory and thus modify it, as necessary. As a result, the Robot and factory are somewhat strongly coupled.
 It could, however, be easily changed, should the design expand, but only at this early point.
-Botomat returns an instance of Robot and allows to run it on a list of tasks.
-A Robot can modify the list of tasks of its Botomat. A Robot can be created and run only in the context of its Botomat.
+Botomat returns an instance of Robot and allows to run it on a collection of tasks.
+A Robot can modify the collection of tasks of its Botomat. A Robot can be created and run only in the context of its Botomat.
 
-I made a function to create a larger list of tasks for easier testing of the program. The tasks themselves are equivalent to those listed in the README.
+I made a function to create a larger collection of tasks for easier testing of the program. The tasks themselves are equivalent to those listed in the README.
+
+One requirement, from which I deviated slightly, was to assign a robot five tasks. I made it so that each robot works on as many tasks at a time as its type (model) specifies. I felt that the challenge was open-ended enough to allow for this deviation.

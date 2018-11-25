@@ -1,11 +1,13 @@
 # Running the program
 Download the Go module 'botomat'. Assuming it's on the branch named 'challenge', the link will be:
 https://github.com/RedVentures22/bot-o-mat-telegrammae/tree/challenge/botomat.
-Otherwise, run
+If it's merged into the master branch, run:
 
 ```
 go get github.com/RedVentures22/bot-o-mat-telegrammae/botomat
 ```
+
+To run the program:
 
 ```go
 package main
@@ -15,6 +17,22 @@ import "botomat"
 func main() {
     botomat.Run()
 }
+```
+
+The program accepts one command-line argument.
+```
+-robots int
+      how many robots to run at the same time (default 1)
+```
+So the program above can be run like so:
+```
+go run main.go --robots=4
+```
+That will prompt the user for four robot names and models. It will then run those four robots.
+
+There are a few tests, which can be run from the main module directory (botomat):
+```
+go test
 ```
 
 # BOT-O-MAT
