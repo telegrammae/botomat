@@ -13,7 +13,7 @@ const (
     _            model = iota
     UNIPEDAL           // one task at a time
     BIPEDAL            // two tasks at a time
-    RADIAL             // three task at a time
+    RADIAL             // three tasks at a time
     QUADRUPEDAL        // four tasks at a time
     ARACHNID           // ten tasks at the same time
     AERONAUTICAL       // twenty tasks at the same time
@@ -29,7 +29,7 @@ type robot struct {
     wg    sync.WaitGroup
 }
 
-// Simulates work by sleeping. Also deletes a task, once it is complete.
+// Simulates work by sleeping.
 func (robot *robot) completeTask(key Task) {
     description := key.description
     eta := key.eta
@@ -65,6 +65,7 @@ func (robot *robot) workWithLimit(maxGoroutines int) {
     robot.tasks.Range(func(key, value interface{}) bool {
         // Preventing multiple robots from processing the same task.
         if value == false {
+            // Mark the task as taken.
             robot.tasks.Store(key, true)
 
             limit <- struct{}{}

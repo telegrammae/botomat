@@ -19,7 +19,7 @@ But there still would be problems with concurrent access because of the concurre
 Another solution is to try and use a concurrent map, sync.Map, introduced in Go 1.9.
 Along with the mechanism to control the precise moment when the value of the map's entry is set to true, it is possible to have multiple Robots work only on distinct tasks and avoid concurrent writes and any inconsistent states.
 
-In general, users are free to create many Robots, with each being able to spawn a different number of goroutines. Each goroutines processes a task.
+In general, users are free to create many Robots, with each being able to spawn a different number of goroutines. Each goroutine processes a task.
 Of course, there is a trade-off in terms of performance, depending on the exact configuration.
 For example, it may be better to use two Robots, with each creating 10 goroutines, instead of four Robots, with each creating two goroutines.
 
