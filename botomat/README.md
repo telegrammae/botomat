@@ -1,9 +1,47 @@
+# Running the program
+Download the Go module 'botomat'.
+If it's merged into the master branch, run:
+
+```
+go get github.com/RedVentures22/bot-o-mat-telegrammae/botomat
+```
+
+To run the program:
+
+```go
+package main
+
+import "botomat"
+
+func main() {
+    botomat.Run()
+}
+```
+
+The program accepts two command-line arguments.
+```
+-robots int
+      how many robots to run at the same time (default 1)
+-tasks int
+      how many random tasks to generate (default 50)
+```
+So the program above can be run like so:
+```
+go run main.go --robots=4 --tasks=100
+```
+That will prompt the user for four robot names and models. It will then run those four robots to complete 100 tasks.
+
+There are a few tests, which can be run from the main module directory (botomat):
+```
+go test
+```
+
 # BOT-O-MAT
 Use any language to complete this challenge. The implementation is up to you: it can be a command-line application or have a graphical interface.
 
-Your application should collect a name and robot type from the types we list below. For each, it should create a Robot of the type the user chooses, e.g. Larry, Bipedal. 
+Your application should collect a name and robot type from the types we list below. For each, it should create a Robot of the type the user chooses, e.g. Larry, Bipedal.
 
-Given the list of tasks below, your application should then assign the Robot a set of five tasks, all of which complete after a duration that we show in milliseconds. 
+Given the list of tasks below, your application should then assign the Robot a set of five tasks, all of which complete after a duration that we show in milliseconds.
 
 
 
@@ -56,7 +94,7 @@ Tasks have a description and an estimated time to complete.
 
 ## Types
 ```
-{ 
+{
   UNIPEDAL: 'Unipedal',
   BIPEDAL: 'Bipedal',
   QUADRUPEDAL: 'Quadrupedal',
