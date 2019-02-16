@@ -3,7 +3,7 @@ Download the Go module 'botomat'.
 If it's merged into the master branch, run:
 
 ```
-go get github.com/RedVentures22/bot-o-mat-telegrammae/botomat
+go get github.com/telegrammae/botomat/botomat
 ```
 
 To run the program:
